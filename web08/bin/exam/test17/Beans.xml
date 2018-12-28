@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+
+	<context:component-scan base-package="exam.test17" />
+	
+<!-- <context:annotation-config /> -->
+<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" /> -->
+
+	<bean id="dateFormat" class="java.text.SimpleDateFormat">
+		<constructor-arg value="yyyy-MM-ddd"/>
+	</bean>
+
+	<bean id="dateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+		<constructor-arg ref="dateFormat"/>
+		<constructor-arg value="true"/>
+	</bean>
+	
+	<bean id="customPropertyEditorRegistrar" class="exam.test17.CustomPropertyEditorRegistrar">
+		<property name="customDateEditor" ref="dateEditor"/>
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="propertyEditorRegistrars">
+			<list>
+				<ref bean="customPropertyEditorRegistrar" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="hyundaiEngine" class="exam.test17.Engine">
+		<constructor-arg value="Hyundai"/>
+	</bean>
+
+	<bean id="kiaEngine" class="exam.test17.Engine">
+		<constructor-arg value="Kia"/>
+	</bean>
+
+	<bean id="car1" class="exam.test17.Car">
+		<property name="model" value="Sonata" />	
+	</bean>
+	
+	<bean id="car2" class="exam.test17.Car">
+		<property name="model" value="Grandeur" />	
+	</bean>
+</beans>
